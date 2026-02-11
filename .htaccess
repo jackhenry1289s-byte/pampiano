@@ -1,0 +1,19 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Route clean post URLs to slug controller
+RewriteRule ^p/([A-Za-z0-9_-]{3,120})/?$ /p/index.php?slug=$1 [L,QSA]
+
+# Block direct access to private configuration files
+RewriteRule ^data/ - [F,L]
+
+# Prevent script execution in uploads
+RewriteRule ^uploads/.*\.(php[0-9]?|phtml|phar)$ - [F,NC,L]
+
+# Basic security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
